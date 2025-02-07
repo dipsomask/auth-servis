@@ -1,0 +1,16 @@
+
+#project enviromental config files
+config.json
+controllers/configDb.h
+
+#db model config files
+models/model.json
+
+#cmake build dir
+build
+
+#vscode dirs
+.vscode
+
+#external libs dirs
+External
