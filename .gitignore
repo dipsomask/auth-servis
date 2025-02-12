@@ -12,5 +12,5 @@ build
 #vscode dirs
 .vscode
 
-#external libs dirs
-External
+#external libs dirs if dont't need
+#External
