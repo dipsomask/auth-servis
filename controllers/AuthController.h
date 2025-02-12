@@ -23,13 +23,7 @@ public:
     
     ADD_METHOD_TO(
         AuthController::updateAccessToken,
-        "/updateaccesst",
-        drogon::Post
-    );
-
-    ADD_METHOD_TO(
-        AuthController::updateRefreshToken,
-        "/updaterefresht",
+        "/updateaccesst?refreshToken={1}&username={2}",
         drogon::Post
     );
     
@@ -49,10 +43,6 @@ public:
     void updateAccessToken(const drogon::HttpRequestPtr &req,
         std::function<void(const drogon::HttpResponsePtr &)> &&callback,
         const std::string &refreshToken,
-        std::string &username);
-
-    void updateRefreshToken(const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)> &&callback,
-        std::string &username);
+        const std::string &username);
 
 };

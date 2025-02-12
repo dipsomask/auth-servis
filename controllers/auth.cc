@@ -19,7 +19,10 @@ void authAndValid::ValidateKey(const std::string &username, const std::string &k
 
 }
 
-std::string authAndValid::GenerateJwt(const std::string &username){
+std::string authAndValid::GenerateJwt(
+    const std::string &username,
+    const int &hours,
+    const int &minutes){
 
     if(username.empty()){
         throw std::domain_error("User not found");
@@ -34,7 +37,8 @@ std::string authAndValid::GenerateJwt(const std::string &username){
         )
         .set_expires_at(
             std::chrono::system_clock::now() +
-            std::chrono::minutes(30)
+            std::chrono::hours(hours) +
+            std::chrono::minutes(minutes)
         )
         .sign(
             jwt::algorithm::hs256{configdb::secret}
@@ -54,7 +58,7 @@ std::string authAndValid::generateAndCommitAccessToken(const std::string &userna
         throw std::domain_error("User not found");
     }
 
-    std::string token = drogon::utils::getUuid();
+    std::string token = authAndValid::GenerateJwt(username, 1, 0);
 
     pqxx::connection conn(configdb::connArgs);
     pqxx::work txn(conn);
@@ -78,7 +82,7 @@ std::string authAndValid::generateAndCommitRefreshToken(const std::string &usern
         throw std::domain_error("User not found");
     }
 
-    std::string token = drogon::utils::getUuid();
+    std::string token = authAndValid::GenerateJwt(username, 24, 0);
 
     pqxx::connection conn(configdb::connArgs);
     pqxx::work txn(conn);

@@ -74,7 +74,7 @@ void AuthController::login(const drogon::HttpRequestPtr &req,
     if(username.empty() || passwd.empty()){
         
         Json::Value err;
-        err["error"] = "Invalid parms";
+        err["error"] = "Invalid username or password";
 
         auto response = drogon::HttpResponse::newHttpJsonResponse(err);
         response->setStatusCode(drogon::HttpStatusCode::k400BadRequest);
@@ -101,11 +101,9 @@ void AuthController::login(const drogon::HttpRequestPtr &req,
 
         std::string refreshToken = authAndValid::generateAndCommitRefreshToken(username);
         std::string accessToken = authAndValid::generateAndCommitAccessToken(username);
-        std::string jwt = authAndValid::GenerateJwt(username);
 
         Json::Value resp;
         resp["message"] = "User successfully logined";
-        resp["jwt"] = jwt;
         resp["refresh-token"] = refreshToken;
         resp["access-token"] = accessToken;
 
@@ -133,7 +131,7 @@ void AuthController::login(const drogon::HttpRequestPtr &req,
 void AuthController::updateAccessToken(const drogon::HttpRequestPtr &req,
         std::function<void(const drogon::HttpResponsePtr &)> &&callback,
         const std::string &refreshToken,
-        std::string &username){
+        const std::string &username){
     
     if (refreshToken.empty() || username.empty()){
         Json::Value err;
@@ -153,20 +151,22 @@ void AuthController::updateAccessToken(const drogon::HttpRequestPtr &req,
         pqxx::work txn(conn);
 
         auto result = txn.exec(
-            "SELECT * FROM users WHERE user = " + txn.quote(username) +
+            "SELECT * FROM users WHERE username = " + txn.quote(username) +
             " AND refresh_token = " + txn.quote(refreshToken) + ";"
         );
         if(result.empty()){
-
             Json::Value err;
-            err["error"] = "Unexpected result from Select query";
+            err["error"] = "Invalid or expired refresh token";
+
+            txn.commit();
 
             auto response = drogon::HttpResponse::newHttpJsonResponse(err);
+            response->setStatusCode(drogon::HttpStatusCode::k401Unauthorized); 
             
             callback(response);
             return;
-
         }
+        txn.commit();
 
         std::string token = authAndValid::generateAndCommitAccessToken(username);
 
@@ -191,31 +191,3 @@ void AuthController::updateAccessToken(const drogon::HttpRequestPtr &req,
 
 }
 
-void AuthController::updateRefreshToken(const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)> &&callback,
-        std::string &username){
-    
-    try
-    {
-        std::string token = authAndValid::generateAndCommitRefreshToken(username);
-
-        Json::Value resp;
-        resp["message"] = "Token update successfuly";
-        resp["refresh-token"] = token;
-
-        auto response = drogon::HttpResponse::newHttpJsonResponse(resp);
-        callback(response);
-
-    }
-    catch(const std::exception& e)
-    {
-        Json::Value err;
-        err["error"] = e.what();
-
-        auto response = drogon::HttpResponse::newHttpJsonResponse(err);
-        response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
-        
-        callback(response);
-    } 
-
-}
