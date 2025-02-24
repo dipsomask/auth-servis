@@ -2,7 +2,8 @@
 
 # needed packeges:
 - libssl-dev, libpqxx-dev
-- drogon abd jwt-cpp (you can see installation guide in
+- drogon abd jwt-cpp 
+(you can see installation guide in
 https://github.com/drogonframework/drogon.git
 https://github.com/Thalhammer/jwt-cpp.git) 
 
