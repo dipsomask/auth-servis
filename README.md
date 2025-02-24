@@ -1,5 +1,9 @@
 # Simple registration/authorization servis on Drogon + jwt-cpp
 
+# needed packeges:
+- libssl-dev, libpqxx-dev
+- drogon abd jwt-cpp (you can see installation guide in https://github.com/drogonframework/drogon.git anb https://github.com/Thalhammer/jwt-cpp.git) 
+
 # config.json:
 - Rename and change config.example.ssl.json or config.example.nossl.json to config.json
 - Or you can use your different configuration
