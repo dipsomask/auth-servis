@@ -19,6 +19,24 @@ void authAndValid::ValidateKey(const std::string &username, const std::string &k
 
 }
 
+void authAndValid::validateRefreshToken(std::string &token) {
+
+    auto verifier = jwt::verify()
+        .with_issuer("auth_servis")
+        .allow_algorithm(jwt::algorithm::hs256{configdb::secret});
+
+    jwt::decoded_jwt decoded = jwt::decode(token);
+    std::error_code ec;
+
+    verifier.verify(decoded, ec);
+
+    if (ec) {
+        
+        throw std::runtime_error("Expired token lifetime");
+    }
+    
+}
+
 std::string authAndValid::GenerateJwt(
     const std::string &username,
     const int &hours,
@@ -33,20 +51,24 @@ std::string authAndValid::GenerateJwt(
         .set_subject(username)
         .set_type("JWS")
         .set_payload_claim(
+
             "username", jwt::claim(username)
         )
         .set_expires_at(
+
             std::chrono::system_clock::now() +
             std::chrono::hours(hours) +
             std::chrono::minutes(minutes)
         )
         .sign(
+
             jwt::algorithm::hs256{configdb::secret}
         );
 
-    if(token.empty()){
+    if (token.empty()) {
         throw std::domain_error("Bad generation");
     }
+
 
     return token;
 }
@@ -82,7 +104,7 @@ std::string authAndValid::generateAndCommitRefreshToken(const std::string &usern
         throw std::domain_error("User not found");
     }
 
-    std::string token = authAndValid::GenerateJwt(username, 24, 0);
+    std::string token = authAndValid::GenerateJwt(username, 0, 1);
 
     pqxx::connection conn(configdb::connArgs);
     pqxx::work txn(conn);
