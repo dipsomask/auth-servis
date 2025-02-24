@@ -11,19 +11,19 @@ public:
 
     ADD_METHOD_TO(
         AuthController::registration,
-        "/registration?username={1}&passwd={2}",
+        "/registration",
         drogon::Post
     );
 
     ADD_METHOD_TO(
         AuthController::login,
-        "/login?username={1}&passwd={2}",
+        "/login",
         drogon::Get
     );
     
     ADD_METHOD_TO(
         AuthController::updateAccessToken,
-        "/updateaccesst?refreshToken={1}&username={2}",
+        "/updateaccesst",
         drogon::Post
     );
     
@@ -31,18 +31,12 @@ public:
 
 
     void registration(const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)> &&callback,
-        const std::string &username,
-        const std::string &passwd);
+        std::function<void(const drogon::HttpResponsePtr &)> &&callback);
 
     void login(const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)> &&callback,
-        const std::string &username,
-        const std::string &passwd);
+        std::function<void(const drogon::HttpResponsePtr &)> &&callback);
 
     void updateAccessToken(const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)> &&callback,
-        const std::string &refreshToken,
-        const std::string &username);
+        std::function<void(const drogon::HttpResponsePtr &)> &&callback);
 
 };

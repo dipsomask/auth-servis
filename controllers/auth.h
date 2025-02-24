@@ -10,6 +10,8 @@ namespace authAndValid{
 
 void ValidateKey(const std::string &username, const std::string &key);
 
+void validateRefreshToken(std::string &token);
+
 std::string GenerateJwt(const std::string &username,
     const int &hours,
     const int &minutes);
