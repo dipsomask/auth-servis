@@ -1,8 +1,7 @@
 # Simple registration/authorization servis on Drogon + jwt-cpp
 
 # config.json:
-- Change config.json to config.example.ssl.json for using ssl, but you should add ssl keys to your system.
-- Change config.json to config.example.nossl.json for using it without ssl.
+- Rename and change config.example.ssl.json or config.example.nossl.json to config.json
 - Or you can use your different configuration
 
 # configDB.h:
