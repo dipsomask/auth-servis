@@ -1,4 +1,7 @@
 #include "auth.h"
+#include "ServisConfig.h"
+
+
 
 void authAndValid::ValidateKey(const std::string &username, const std::string &key){
     
@@ -6,7 +9,12 @@ void authAndValid::ValidateKey(const std::string &username, const std::string &k
         throw std::domain_error("Check failed");
     }
 
-    pqxx::connection conn(configdb::connArgs);
+
+    configdb::ServisConfig servisCfg = 
+        configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
+
+
+    pqxx::connection conn(servisCfg.getConnectionArgs());
     pqxx::work txn(conn);
 
     auto result = txn.exec(
@@ -21,9 +29,14 @@ void authAndValid::ValidateKey(const std::string &username, const std::string &k
 
 void authAndValid::validateRefreshToken(std::string &token) {
 
+
+    configdb::ServisConfig servisCfg = 
+        configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
+
+
     auto verifier = jwt::verify()
         .with_issuer("auth_servis")
-        .allow_algorithm(jwt::algorithm::hs256{configdb::secret});
+        .allow_algorithm(jwt::algorithm::hs256{servisCfg.getSecretKey()});
 
     jwt::decoded_jwt decoded = jwt::decode(token);
     std::error_code ec;
@@ -46,6 +59,11 @@ std::string authAndValid::GenerateJwt(
         throw std::domain_error("User not found");
     }
 
+
+    configdb::ServisConfig servisCfg = 
+        configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
+
+
     std::string token = jwt::create()
         .set_issuer("auth_servis")
         .set_subject(username)
@@ -62,7 +80,7 @@ std::string authAndValid::GenerateJwt(
         )
         .sign(
 
-            jwt::algorithm::hs256{configdb::secret}
+            jwt::algorithm::hs256{servisCfg.getSecretKey()}
         );
 
     if (token.empty()) {
@@ -80,9 +98,14 @@ std::string authAndValid::generateAndCommitAccessToken(const std::string &userna
         throw std::domain_error("User not found");
     }
 
-    std::string token = authAndValid::GenerateJwt(username, 1, 0);
+    std::string token = authAndValid::GenerateJwt(username, 0, 5);
 
-    pqxx::connection conn(configdb::connArgs);
+
+    configdb::ServisConfig servisCfg = 
+        configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
+
+
+    pqxx::connection conn(servisCfg.getConnectionArgs());
     pqxx::work txn(conn);
 
     auto result = txn.exec(
@@ -104,9 +127,14 @@ std::string authAndValid::generateAndCommitRefreshToken(const std::string &usern
         throw std::domain_error("User not found");
     }
 
-    std::string token = authAndValid::GenerateJwt(username, 0, 1);
+    std::string token = authAndValid::GenerateJwt(username, 48, 0);
 
-    pqxx::connection conn(configdb::connArgs);
+
+    configdb::ServisConfig servisCfg = 
+        configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
+
+
+    pqxx::connection conn(servisCfg.getConnectionArgs());
     pqxx::work txn(conn);
 
     auto result = txn.exec(
@@ -121,3 +149,4 @@ std::string authAndValid::generateAndCommitRefreshToken(const std::string &usern
     return token;
 
 }
+

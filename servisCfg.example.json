@@ -1,0 +1,9 @@
+{
+    "dbhost": "127.0.0.1",
+    "dbport": 5432,
+    "dbname": "name-of-database",
+    "dbuser": "postgres",
+    "dbpasswd": "dbuser-password",
+    "secret": "sign-for-jwt-tocken"
+
+}
