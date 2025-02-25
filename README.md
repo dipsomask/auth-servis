@@ -1,4 +1,4 @@
-# Simple registration/authorization servis on Drogon + jwt-cpp
+# Simple registration/authorization servis on Drogon + jwt-cpp (and other)
 
 # needed packeges:
 - libc6, gcc, g++, cmake, pkg-config, libpqxx-dev, libjsoncpp-dev, uuid-dev, zlib1g-dev, openssl, libssl-dev, libmariadb3, libyaml-cpp0.8, postgresql-all
