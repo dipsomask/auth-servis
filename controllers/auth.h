@@ -3,7 +3,8 @@
 #include <pqxx/pqxx>
 #include <drogon/drogon.h>
 #include <jwt-cpp/jwt.h>
-#include "configDb.h"
+#include "ServisConfig.h"
+#include <cstdlib>
 
 
 namespace authAndValid{

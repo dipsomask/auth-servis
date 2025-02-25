@@ -1,9 +1,11 @@
 #include "AuthController.h"
-#include "configDb.h"
+#include "ServisConfig.h"
 
 #include <drogon/drogon.h>
 #include <jsoncpp/json/json.h>
 #include <pqxx/pqxx>
+#include <cstdlib>
+
 
 
 void AuthController::registration(const drogon::HttpRequestPtr &req,
@@ -32,7 +34,12 @@ void AuthController::registration(const drogon::HttpRequestPtr &req,
 
     try{
 
-        pqxx::connection conn(configdb::connArgs);
+
+        configdb::ServisConfig servisCfg = 
+            configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
+
+
+        pqxx::connection conn(servisCfg.getConnectionArgs());
         pqxx::work txn(conn);
 
         auto result = txn.exec(
@@ -100,7 +107,12 @@ void AuthController::login(const drogon::HttpRequestPtr &req,
 
     try{
 
-        pqxx::connection conn(configdb::connArgs);
+
+        configdb::ServisConfig servisCfg = 
+            configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
+
+
+        pqxx::connection conn(servisCfg.getConnectionArgs());
         pqxx::work txn(conn);
 
         auto result = txn.exec(
@@ -169,7 +181,12 @@ void AuthController::updateAccessToken(const drogon::HttpRequestPtr &req,
     try
     {
 
-        pqxx::connection conn(configdb::connArgs);
+
+        configdb::ServisConfig servisCfg = 
+            configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
+
+
+        pqxx::connection conn(servisCfg.getConnectionArgs());
         pqxx::work txn(conn);
 
         auto result = txn.exec(
