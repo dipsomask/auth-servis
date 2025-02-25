@@ -1,17 +1,16 @@
 # Simple registration/authorization servis on Drogon + jwt-cpp
 
 # needed packeges:
-- libssl-dev, libpqxx-dev
-- drogon abd jwt-cpp 
+- libc6, gcc, g++, cmake, pkg-config, libpqxx-dev, libjsoncpp-dev, uuid-dev, zlib1g-dev, openssl, libssl-dev, libmariadb3, libyaml-cpp0.8, postgresql-all
+- drogon, postgresql
 (you can see installation guide in
-https://github.com/drogonframework/drogon.git
-https://github.com/Thalhammer/jwt-cpp.git) 
+https://github.com/drogonframework/drogon.git) 
 
-# config.json:
-- Rename and change config.example.ssl.json or config.example.nossl.json to config.json
-- Or you can use your different configuration
-
-# configDB.h:
+_____________________________________________________
+# how to use:
+- install (.deb) packege with servise
+- you should create database in postgres
+- then make table, making this sql request:
 - Put this code to create needed table in your database:
 ```
 CREATE TABLE users(
@@ -23,4 +22,16 @@ username varchar(100) NOT NULL,
 );
 CREATE UNIQUE INDEX users_username_key ON users USING btree ("username");
 ```
-- **Change it with your db setting**
+
+______________________________________________________
+- make two files in any directory or clone Examples (change their with your configuration):
+```
+config file for drogon settings (config.example.nossl.json - example)
+servis config file (servisCfg.example.json - example) (include database connecting configiration)
+```
+______________________________________________________
+- run this command to start servr
+```
+[/path/to/servis/binary/file] [/absolute/path/to/config/file/for/drogon/settings] [/absolute/path/to/servis/config/file]
+```
+
