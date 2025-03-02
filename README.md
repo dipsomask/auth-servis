@@ -11,7 +11,7 @@ _____________________________________________________
 - Install (.deb) packege with servise.
 - You should create database in postgres.
 - Then make table, making this sql request:
-    - run this code to create needed table in your database:
+    - run this sql commands for creating needed table in your database:
 ```
 CREATE TABLE users(
 username varchar(100) NOT NULL,
@@ -24,7 +24,7 @@ CREATE UNIQUE INDEX users_username_key ON users USING btree ("username");
 ```
 
 ______________________________________________________
-- Make two files in any directory or clone Examples (change their with your configuration):
+- Make 2 files in any directory or clone Examples (change their with your configuration):
 ```
 config file for drogon settings (config.example.nossl.json - example)
 servis config file (servisCfg.example.json - example) (include database connecting configiration)
@@ -32,11 +32,11 @@ servis config file (servisCfg.example.json - example) (include database connecti
 ______________________________________________________
 - Run this command to start server.
 ```
-/usr/bin/test-db-servis /absolute/path/to/config/file/for/drogon/settings /absolute/path/to/servis/config/file
+/usr/bin/auth-servis /absolute/path/to/config/file/for/drogon/settings /absolute/path/to/servis/config/file
 ```
 _____________________________________________________
 # Make enviromental using docker compose:
-- Install docker with docker compose
+- Install docker and docker compose
 - Download 2 files from "https://github.com/drogonframework/drogon.git" repository to any directory:
     - docker-compose.yml;
     - init.sql.
@@ -44,6 +44,6 @@ _____________________________________________________
 ```
 docker compose up --build
 ```
-- In server container you can change config files for database and server settings, if you want (NOT RECOMENDED).
+- In server container you can change config files for database and server settings (if you want, but NOT RECOMENDED).
 Also you can see server and database setting in /usr/src/ config files in server container.
 
