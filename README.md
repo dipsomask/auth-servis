@@ -40,9 +40,13 @@ _____________________________________________________
 - Download 2 files from "https://github.com/drogonframework/drogon.git" repository to any directory:
     - docker-compose.yml;
     - init.sql.
-- Run this command from directory with downloaded files:
+- (first run) Run this command from directory with downloaded files (if the environment crashes, all changes to the database will be preserved):
 ```
 docker compose up --build
+```
+- (subsequent runs) use the command (using first command, the database will be updated and data will be lost):
+```
+docker compose up
 ```
 - In server container you can change config files for database and server settings (if you want, but NOT RECOMENDED).
 Also you can see server and database setting in /usr/src/ config files in server container.
