@@ -27,10 +27,10 @@ WORKDIR $DROGON_PATH/build
 RUN cmake .. && make && make install
 
 WORKDIR /tmp
-RUN git clone https://github.com/dipsomask/test-db-servis.git && \
-    mv /tmp/test-db-servis/deb/auth-servis-0.1.1-Linux.deb /usr/src && \
-    mv /tmp/test-db-servis/servisCfg.example.json /usr/src && \
-    mv /tmp/test-db-servis/config.example.nossl.json /usr/src && \
-    rm -rf /tmp/test-db-servis
+RUN git clone https://github.com/dipsomask/test-db-servis.git \
+    && mv /tmp/test-db-servis/deb/auth-servis-0.1.1-Linux.deb /usr/src \
+    && mv /tmp/test-db-servis/servisCfg.example.json /usr/src \
+    && mv /tmp/test-db-servis/config.example.nossl.json /usr/src \
+    && rm -rf /tmp/test-db-servis
 
 CMD cd /usr/src && dpkg -i auth-servis-0.1.1-Linux.deb && chmod +x /usr/bin/auth-servis && cd /usr/bin && /usr/bin/auth-servis /usr/src/config.example.nossl.json /usr/src/servisCfg.example.json

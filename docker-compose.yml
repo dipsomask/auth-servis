@@ -1,8 +1,7 @@
 services:
   auth-servis:
     build:
-      context: ./
-      dockerfile: Dockerfile
+      image: dipsomask/nossl-auth-small
     ports:
       - "3000:3000"
     networks:
