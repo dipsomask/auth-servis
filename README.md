@@ -11,7 +11,7 @@ _____________________________________________________
 - Install (.deb) packege with servise.
 - You should create database in postgres.
 - Then make table, making this sql request:
-    - put this code to create needed table in your database:
+    - run this code to create needed table in your database:
 ```
 CREATE TABLE users(
 username varchar(100) NOT NULL,
