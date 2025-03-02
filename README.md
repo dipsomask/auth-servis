@@ -37,7 +37,7 @@ ______________________________________________________
 _____________________________________________________
 # Make enviromental using docker compose:
 - Install docker and docker compose
-- Download 2 files from "https://github.com/dipsomask/test-db-servis.git" repository to any directory:
+- Download 2 files from "https://github.com/dipsomask/auth-servis.git" repository to any directory:
     - docker-compose.yml;
     - init.sql.
 - (**first run**) Run this command from directory with downloaded files (if the environment crashes, all changes to the database will be preserved):
