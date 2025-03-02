@@ -1,6 +1,6 @@
 # Simple registration/authorization servis (no ssl) on Drogon + jwt-cpp (and other)
 
-# needed packeges (if don't user docker compose):
+# needed packeges (if don't use docker compose):
 - libc6, gcc, g++, cmake, pkg-config, libpqxx-dev, libjsoncpp-dev, uuid-dev, zlib1g-dev, openssl, libssl-dev, libmariadb3, libyaml-cpp0.8, postgresql-all
 - drogon, postgresql
 (you can see installation guide in
