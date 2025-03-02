@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM drogonframework/drogon:latest
 
 RUN apt-get update && apt-get install -y \
     build-essential \
