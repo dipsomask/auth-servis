@@ -1,4 +1,4 @@
-FROM drogonframework/drogon:latest
+FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -16,11 +16,9 @@ RUN apt-get update && apt-get install -y \
     uuid-dev \
     zlib1g-dev \
     libmariadb3 \
-    libyaml-cpp0.8 \
-    postgresql-all
+    libyaml-cpp0.8 && rm -rf /var/lib/apt/lists/*
 
-
-ENV DROGON_PATH /opt/drogon
+ENV DROGON_PATH=/opt/drogon
 RUN git clone https://github.com/drogonframework/drogon $DROGON_PATH
 WORKDIR $DROGON_PATH
 RUN git submodule update --init
@@ -28,14 +26,11 @@ RUN mkdir build
 WORKDIR $DROGON_PATH/build
 RUN cmake .. && make && make install
 
+WORKDIR /tmp
+RUN git clone https://github.com/dipsomask/test-db-servis.git && \
+    mv /tmp/test-db-servis/deb/auth-servis-0.1.1-Linux.deb /usr/src && \
+    mv /tmp/test-db-servis/servisCfg.example.json /usr/src && \
+    mv /tmp/test-db-servis/config.example.nossl.json /usr/src && \
+    rm -rf /tmp/test-db-servis
 
-COPY test-db-servis-0.1.1-Linux.deb /root
-COPY servisCfg.json /usr/src
-COPY config.example.nossl.json /usr/src
-
-
-WORKDIR /root
-RUN dpkg -i test-db-servis-0.1.1-Linux.deb
-RUN chmod +x /usr/bin/test-db-servis
-
-CMD [ "bash" ]
+CMD cd /usr/src && dpkg -i auth-servis-0.1.1-Linux.deb && chmod +x /usr/bin/auth-servis && cd /usr/bin && /usr/bin/auth-servis /usr/src/config.example.nossl.json /usr/src/servisCfg.example.json

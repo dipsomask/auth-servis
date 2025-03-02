@@ -37,6 +37,11 @@ configdb::ServisConfig::ServisConfig(const std::string& path){
 
     secret = data["secret"].asString();
 
+    access_t_lifestyle_time_hours = data["access-t-lifestyle-time-hours"].asInt();
+    access_t_lifestyle_time_minuts = data["access-t-lifestyle-time-minuts"].asInt();
+    refresh_t_lifestyle_time_hours = data["refresh-t-lifestyle-time-hours"].asInt();
+    refresh_t_lifestyle_time_minuts = data["refresh-t-lifestyle-time-minuts"].asInt();
+
 }
 
 std::string configdb::ServisConfig::getConnectionArgs(){
@@ -55,3 +60,26 @@ std::string configdb::ServisConfig::getSecretKey(){
 
 }
 
+int configdb::ServisConfig::getAccessTLifestyleTime_hours(){
+    
+    return access_t_lifestyle_time_hours;
+
+}
+
+int configdb::ServisConfig::getAccessTLifestyleTime_minuts(){
+    
+    return access_t_lifestyle_time_minuts;
+
+}
+
+int configdb::ServisConfig::getRefreshTLifestyleTime_hours(){
+    
+    return refresh_t_lifestyle_time_hours;
+
+}
+
+int configdb::ServisConfig::getRefreshTLifestyleTime_minuts(){
+    
+    return refresh_t_lifestyle_time_minuts;
+
+}

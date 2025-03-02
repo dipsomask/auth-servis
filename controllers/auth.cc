@@ -98,11 +98,15 @@ std::string authAndValid::generateAndCommitAccessToken(const std::string &userna
         throw std::domain_error("User not found");
     }
 
-    std::string token = authAndValid::GenerateJwt(username, 0, 5);
-
 
     configdb::ServisConfig servisCfg = 
         configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
+
+    std::string token = authAndValid::GenerateJwt(
+                            username, 
+                            servisCfg.getAccessTLifestyleTime_hours(),
+                            servisCfg.getAccessTLifestyleTime_minuts()
+                        );
 
 
     pqxx::connection conn(servisCfg.getConnectionArgs());
@@ -127,11 +131,15 @@ std::string authAndValid::generateAndCommitRefreshToken(const std::string &usern
         throw std::domain_error("User not found");
     }
 
-    std::string token = authAndValid::GenerateJwt(username, 48, 0);
-
 
     configdb::ServisConfig servisCfg = 
         configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
+
+    std::string token = authAndValid::GenerateJwt(
+                            username, 
+                            servisCfg.getRefreshTLifestyleTime_hours(), 
+                            servisCfg.getRefreshTLifestyleTime_minuts()
+                        );
 
 
     pqxx::connection conn(servisCfg.getConnectionArgs());
