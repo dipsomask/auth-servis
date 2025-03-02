@@ -32,6 +32,6 @@ servis config file (servisCfg.example.json - example) (include database connecti
 ______________________________________________________
 - run this command to start servr
 ```
-[/path/to/servis/binary/file] [/absolute/path/to/config/file/for/drogon/settings] [/absolute/path/to/servis/config/file]
+/usr/bin/test-db-servis /absolute/path/to/config/file/for/drogon/settings /absolute/path/to/servis/config/file
 ```
 
