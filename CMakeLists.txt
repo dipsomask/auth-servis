@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(test-db-servis CXX)
+project(auth-servis CXX)
 
 
 set(CMAKE_CXX_STANDARD 17)
@@ -57,7 +57,7 @@ set(CPACK_DEBIAN_PACKAGE_MAINTAINER DM)
 set(CPACK_GENERATOR "DEB")
 set(CPACK_PACKAGE_HOMEPAGE_URL https://github.com/dipsomask/test-db-servis.git)
 set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.27), gcc, g++, cmake, pkg-config, libpqxx-dev, libjsoncpp-dev, uuid-dev, zlib1g-dev, openssl, libssl-dev, libmariadb3, libyaml-cpp0.8, postgresql-all")
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 install(TARGETS ${PROJECT_NAME} DESTINATION /usr/bin)
 
 include(CPack)
