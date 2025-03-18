@@ -158,3 +158,10 @@ std::string authAndValid::generateAndCommitRefreshToken(const std::string &usern
 
 }
 
+std::string authAndValid::getUsernameFromToken(std::string token){
+
+    jwt::decoded_jwt decoded = jwt::decode(token);
+    
+    return decoded.get_subject();
+
+}

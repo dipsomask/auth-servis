@@ -162,21 +162,20 @@ void AuthController::updateAccessToken(const drogon::HttpRequestPtr &req,
     auto headers = (*req).getHeaders();
 
     if (headers.empty() || headers.find("refresh-token") == headers.end() || 
-    headers.find("username") == headers.end() || 
-    headers["refresh-token"].empty() || headers["username"].empty()){
+        headers["refresh-token"].empty()){
         Json::Value err;
         err["status"] = "error";
         err["message"] = "Invalid parms";
 
         auto response = drogon::HttpResponse::newHttpJsonResponse(err);
-        response->setStatusCode(drogon::HttpStatusCode::k400BadRequest);
+        response->setStatusCode(drogon::HttpStatusCode::k401Unauthorized);
         
         callback(response);
         return;
     }
 
     std::string refreshToken = headers["refresh-token"];
-    std::string username = headers["username"];
+    std::string username = authAndValid::getUsernameFromToken(refreshToken);
 
     try
     {

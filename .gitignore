@@ -5,9 +5,13 @@ servisCfg.json
 
 #cmake build dir
 build
+exmpl-desctop-with-auth/build
 
 #vscode dirs
 .vscode
 
 #external libs dirs if dont't need
 #External
+
+#docs (not corrected)
+docs
