@@ -21,4 +21,6 @@ std::string generateAndCommitAccessToken(const std::string &username);
 
 std::string generateAndCommitRefreshToken(const std::string &username);
 
+std::string getUsernameFromToken(std::string token);
+
 }
