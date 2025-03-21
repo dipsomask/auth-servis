@@ -2,6 +2,7 @@
 #project enviromental config files
 config.json
 servisCfg.json
+exmpl-desctop-with-auth/example.config.json
 
 #cmake build dir
 build

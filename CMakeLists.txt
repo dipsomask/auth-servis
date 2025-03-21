@@ -8,9 +8,12 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(SRC_FILES
     main.cc
-    controllers/AuthController.cc
-    controllers/auth.cc
-    controllers/ServisConfig.cc
+    src/app/App.cc
+    src/controllers/login/LoginController.cc
+    src/controllers/registration/RegistrationController.cc
+    src/controllers/updateaccess/UpdateAssessController.cc
+    src/utils/auth.cc
+    src/utils/ServisConfig.cc
 )
 
 
@@ -18,7 +21,11 @@ aux_source_directory(controllers CTL_SRC_DIR)
 
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/controllers
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/app
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/login
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/registration
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/updateaccess
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/utils
 )
 
 
@@ -55,7 +62,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER DM)
 set(CPACK_GENERATOR "DEB")
-set(CPACK_PACKAGE_HOMEPAGE_URL https://github.com/dipsomask/test-db-servis.git)
+set(CPACK_PACKAGE_HOMEPAGE_URL https://github.com/dipsomask/auth-servis.git)
 set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 install(TARGETS ${PROJECT_NAME} DESTINATION /usr/bin)
