@@ -17,7 +17,7 @@ private:
         const int &minutes);
     
 
-protected:
+public:
     void validateRefreshToken(std::string &token);
     
     std::string generateAndCommitAccessToken(const std::string &username);

@@ -8,11 +8,12 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(SRC_FILES
     main.cc
-    controllers/login/LoginController.cc
-    controllers/registration/RegistrationController.cc
-    controllers/updateaccess/UpdateAssessController.cc
-    utils/auth.cc
-    utils/ServisConfig.cc
+    src/app/App.cc
+    src/controllers/login/LoginController.cc
+    src/controllers/registration/RegistrationController.cc
+    src/controllers/updateaccess/UpdateAssessController.cc
+    src/utils/auth.cc
+    src/utils/ServisConfig.cc
 )
 
 
@@ -20,10 +21,11 @@ aux_source_directory(controllers CTL_SRC_DIR)
 
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/controllers/login
-    ${CMAKE_CURRENT_SOURCE_DIR}/controllers/registration
-    ${CMAKE_CURRENT_SOURCE_DIR}/controllers/updateaccess
-    ${CMAKE_CURRENT_SOURCE_DIR}/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/app
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/login
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/registration
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/updateaccess
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/utils
 )
 
 
