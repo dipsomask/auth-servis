@@ -1,5 +1,6 @@
 #include "AuthController.h"
 #include "ServisConfig.h"
+#include "auth.h"
 
 #include <drogon/drogon.h>
 #include <jsoncpp/json/json.h>
@@ -125,8 +126,8 @@ void AuthController::login(const drogon::HttpRequestPtr &req,
         }
         txn.commit();
 
-        std::string refreshToken = authAndValid::generateAndCommitRefreshToken(username);
-        std::string accessToken = authAndValid::generateAndCommitAccessToken(username);
+        std::string refreshToken = generateAndCommitRefreshToken(username);
+        std::string accessToken = generateAndCommitAccessToken(username);
 
         Json::Value resp;
         resp["status"] = "success";
@@ -175,7 +176,7 @@ void AuthController::updateAccessToken(const drogon::HttpRequestPtr &req,
     }
 
     std::string refreshToken = headers["refresh-token"];
-    std::string username = authAndValid::getUsernameFromToken(refreshToken);
+    std::string username = getUsernameFromToken(refreshToken);
 
     try
     {

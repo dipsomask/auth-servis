@@ -1,10 +1,13 @@
 #pragma once
 
 #include <drogon/HttpController.h>
+#include "auth.h"
 
 
 
-class AuthController : public drogon::HttpController<AuthController> {
+class AuthController : 
+    public drogon::HttpController<AuthController>, 
+    public authAndValid::IAuth {
 
 public:
     METHOD_LIST_BEGIN

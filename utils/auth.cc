@@ -2,32 +2,7 @@
 #include "ServisConfig.h"
 
 
-
-void authAndValid::ValidateKey(const std::string &username, const std::string &key){
-    
-    if(username.empty() || key.empty()){
-        throw std::domain_error("Check failed");
-    }
-
-
-    configdb::ServisConfig servisCfg = 
-        configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
-
-
-    pqxx::connection conn(servisCfg.getConnectionArgs());
-    pqxx::work txn(conn);
-
-    auto result = txn.exec(
-        "SELECT * FROM users WHERE username = " + txn.quote(username) + " AND " +
-        "api_key = " + txn.quote(key) + ";"
-    );
-    if(result.empty()){
-        throw std::domain_error("Check failed");
-    }
-
-}
-
-void authAndValid::validateRefreshToken(std::string &token) {
+void authAndValid::IAuth::validateRefreshToken(std::string &token) {
 
 
     configdb::ServisConfig servisCfg = 
@@ -92,7 +67,7 @@ std::string authAndValid::GenerateJwt(
 }
 
 
-std::string authAndValid::generateAndCommitAccessToken(const std::string &username){
+std::string authAndValid::IAuth::generateAndCommitAccessToken(const std::string &username){
     
     if(username.empty()){
         throw std::domain_error("User not found");
@@ -125,7 +100,7 @@ std::string authAndValid::generateAndCommitAccessToken(const std::string &userna
 
 }
 
-std::string authAndValid::generateAndCommitRefreshToken(const std::string &username){
+std::string authAndValid::IAuth::generateAndCommitRefreshToken(const std::string &username){
     
     if(username.empty()){
         throw std::domain_error("User not found");
@@ -158,7 +133,7 @@ std::string authAndValid::generateAndCommitRefreshToken(const std::string &usern
 
 }
 
-std::string authAndValid::getUsernameFromToken(std::string token){
+std::string authAndValid::IAuth::getUsernameFromToken(std::string token){
 
     jwt::decoded_jwt decoded = jwt::decode(token);
     
