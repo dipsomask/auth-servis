@@ -25,7 +25,7 @@ void authAndValid::IAuth::validateRefreshToken(std::string &token) {
     
 }
 
-std::string authAndValid::GenerateJwt(
+std::string authAndValid::IAuth::GenerateJwt(
     const std::string &username,
     const int &hours,
     const int &minutes){
@@ -77,7 +77,7 @@ std::string authAndValid::IAuth::generateAndCommitAccessToken(const std::string 
     configdb::ServisConfig servisCfg = 
         configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
 
-    std::string token = authAndValid::GenerateJwt(
+    std::string token = GenerateJwt(
                             username, 
                             servisCfg.getAccessTLifestyleTime_hours(),
                             servisCfg.getAccessTLifestyleTime_minuts()
@@ -110,7 +110,7 @@ std::string authAndValid::IAuth::generateAndCommitRefreshToken(const std::string
     configdb::ServisConfig servisCfg = 
         configdb::ServisConfig(std::string(getenv("AUTH_SERVIS_DB_DIR")));
 
-    std::string token = authAndValid::GenerateJwt(
+    std::string token = GenerateJwt(
                             username, 
                             servisCfg.getRefreshTLifestyleTime_hours(), 
                             servisCfg.getRefreshTLifestyleTime_minuts()

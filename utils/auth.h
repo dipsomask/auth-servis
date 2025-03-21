@@ -26,6 +26,6 @@ protected:
 
     std::string getUsernameFromToken(std::string token);
 
-}
+};
 
 }
